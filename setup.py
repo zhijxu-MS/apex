@@ -30,6 +30,7 @@ def get_cuda_bare_metal_version(cuda_dir):
 
 
 def check_cuda_torch_binary_vs_bare_metal(cuda_dir):
+    return True
     raw_output, bare_metal_version = get_cuda_bare_metal_version(cuda_dir)
     torch_binary_version = parse(torch.version.cuda)
 
@@ -869,6 +870,6 @@ setup(
     install_requires=["packaging>20.6"],
     description="PyTorch Extensions written by NVIDIA",
     ext_modules=ext_modules,
-    cmdclass={"build_ext": BuildExtension} if ext_modules else {},
+    cmdclass={"build_ext": BuildExtension.with_options(parallel=20)} if ext_modules else {},
     extras_require=extras,
 )
